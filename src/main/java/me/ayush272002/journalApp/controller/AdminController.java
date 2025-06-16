@@ -1,10 +1,10 @@
 package me.ayush272002.journalApp.controller;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import me.ayush272002.journalApp.cache.AppCache;
 import me.ayush272002.journalApp.entity.User;
 import me.ayush272002.journalApp.repository.UserRepository;
 import me.ayush272002.journalApp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,13 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AdminController {
-
-    @Autowired
     private UserService userService;
-
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    private AppCache appCache;
 
     private User getAuthenticatedUser(Authentication authentication) {
         return userRepository.findByUserName(authentication.getName());
@@ -42,5 +40,11 @@ public class AdminController {
     public ResponseEntity<?> createAdminUser(@RequestBody User user) {
         userService.saveAdmin(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("clear-app-cache")
+    public ResponseEntity<?> clearAppCache(){
+        appCache.init();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

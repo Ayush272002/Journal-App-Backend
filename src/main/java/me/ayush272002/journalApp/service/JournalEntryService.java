@@ -7,13 +7,14 @@ import me.ayush272002.journalApp.entity.User;
 import me.ayush272002.journalApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 @Slf4j
 @AllArgsConstructor
 public class JournalEntryService {
